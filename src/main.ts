@@ -6,6 +6,7 @@ import {
   Layout,
   Menu,
   Table,
+  Spin,
 } from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 import VueHighcharts from '@/directive/highcharts';
@@ -22,6 +23,7 @@ const antdComponents = [
   Layout,
   Menu,
   Table,
+  Spin,
 ];
 const app = createApp(App);
 

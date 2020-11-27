@@ -1,13 +1,15 @@
 :root {
-  --width: 100%;
-  --height: 100%;
+  --size100: 100%;
   --tipsColor: #f5222d;
+  --fontWhiteColor: #fff;
+  --fontSize60: 60px;
+  --mb60: 60px;
 }
 
 #app {
-  height: var(--height);
+  height: var(--size100);
 }
 
 .ant-layout {
-  height: var(--height);
+  height: var(--size100);
 }
