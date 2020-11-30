@@ -53,12 +53,12 @@ import {
   reactive,
   toRefs,
 } from 'vue';
-import userStore from '@/hooks';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'User',
   setup() {
-    const { state, dispatch } = userStore();
+    const { state, dispatch } = useStore();
     const data = reactive({
       columns: [
         {
@@ -72,7 +72,7 @@ export default defineComponent({
           key: 'age',
         },
         {
-          title: '工作经验',
+          title: '工作经验（年）',
           dataIndex: 'worktime',
           key: 'worktime',
         },
@@ -105,13 +105,11 @@ export default defineComponent({
       loading: computed(() => state.user.loading),
     });
 
-    const getUserList = () => dispatch('user/getUserList');
-
-    const search = (): void => {
-      getUserList();
+    const search = () => {
+      dispatch('user/getUserList', data.formData);
     };
 
-    const reset = (): void => {
+    const reset = () => {
       data.formData.name = '';
       data.formData.phone = '';
     };
@@ -120,7 +118,6 @@ export default defineComponent({
       ...toRefs(data),
       search,
       reset,
-      getUserList,
     };
   },
 });

@@ -15,6 +15,7 @@
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
     "highcharts": "^8.2.2",
+    "http-proxy-middleware": "^1.0.6",
     "register-service-worker": "^1.7.1",
     "vue": "^3.0.0",
     "vue-class-component": "^8.0.0-0",

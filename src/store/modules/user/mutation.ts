@@ -1,13 +1,11 @@
+import { UserState } from '@/store//utils';
 import { GET_USER_LIST, LOADING } from './constant';
-import { userState } from './store';
 
 const mutations = {
-  [GET_USER_LIST](state: userState, payload: userState['tableData']) {
-    console.log('请求数据：', payload);
+  [GET_USER_LIST](state: UserState, payload: any) {
     state.tableData = payload;
-    // state.loading = false;
   },
-  [LOADING](state: userState, payload: userState['loading']) {
+  [LOADING](state: UserState, payload: any) {
     state.loading = payload;
   },
 };

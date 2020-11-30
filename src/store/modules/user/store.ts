@@ -1,9 +1,8 @@
-export const createState = () => {
-  const store = {
-    tableData: [],
-    loading: false,
-  };
-  return store;
+import { UserState } from '@/store/utils';
+
+const state: UserState = {
+  tableData: [],
+  loading: false,
 };
 
-export type userState = ReturnType<typeof createState>;
+export default state;

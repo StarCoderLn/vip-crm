@@ -1,12 +1,13 @@
 module.exports = {
   devServer: {
-    host: 'localhost',
     port: '8081',
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
     proxy: {
       '/api': {
-        target: 'http://localhost:8080',
+        target: 'http://localhost',
         changeOrigin: true,
-        ws: true,
         pathRewrite: {
           '^/api': ''
         },

@@ -1,7 +1,7 @@
-import { userState } from './store';
+import { UserState } from '@/store/utils';
 
-const moduleGetters = {
-  data: (state: userState) => (state),
+const getters = {
+  data: (state: UserState) => (state),
 };
 
-export default moduleGetters;
+export default getters;

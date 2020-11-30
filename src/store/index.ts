@@ -1,11 +1,7 @@
 import { createStore } from 'vuex';
 import modules from './modules';
-import { userState } from './modules/user/store';
+import { UserProps } from './utils';
 
-export interface State {
-  user: userState;
-}
-
-export default createStore<State>({
+export default createStore<UserProps>({
   modules,
 });

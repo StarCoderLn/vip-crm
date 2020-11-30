@@ -1,13 +1,12 @@
 import mutations from './mutation';
-import moduleGetters from './getters';
+import getters from './getters';
 import actions from './actions';
-import { createState } from './store';
+import state from './store';
 
-const moduleState = createState();
 export default {
   namespaced: true,
-  state: moduleState,
-  getters: moduleGetters,
+  state,
+  getters,
   mutations,
   actions,
 };
