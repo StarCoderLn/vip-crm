@@ -55,14 +55,14 @@ export default defineComponent({
       username: '',
       password: '',
     });
-    const rules = {
+    const rules = reactive({
       username: [
         { required: true, message: '请输入用户名', trigger: 'blur' },
       ],
       password: [
         { required: true, message: '请输入密码', trigger: 'blur' },
       ],
-    };
+    });
     const spinning: Ref<boolean> = ref(false);
 
     // const loginForm: Ref<typeof FormProps> = ref(FormProps);

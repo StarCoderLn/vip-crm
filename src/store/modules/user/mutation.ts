@@ -3,9 +3,9 @@ import { GET_USER_LIST, LOADING } from './constant';
 
 const mutations = {
   [GET_USER_LIST](state: UserState, payload: any) {
-    state.tableData = payload;
+    state.tableData = payload.data.list;
   },
-  [LOADING](state: UserState, payload: any) {
+  [LOADING](state: UserState, payload: UserState['loading']) {
     state.loading = payload;
   },
 };

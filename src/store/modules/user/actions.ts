@@ -8,7 +8,7 @@ interface ActionProps {
 }
 
 const actions = {
-  [GET_USER_LIST]({ state, commit }: ActionProps, params: UserProps) {
+  [GET_USER_LIST]({ commit }: ActionProps, params: UserProps) {
     const { name, phone } = params;
     return asyncAndCommit(`/api/basic/web/index.php?r=user/index&name=${name}&phone=${phone}`, 'getUserList', commit);
   },

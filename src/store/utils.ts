@@ -30,12 +30,12 @@ export interface UserState {
 export const asyncAndCommit = async (url: string, mutationName: string, commit: Commit,
   config: AxiosRequestConfig = { method: 'get' }, extraData?: any) => {
   commit(LOADING, true);
-  const { data: { data: { list } } } = await axios(url, config);
+  const { data } = await axios(url, config);
   commit(LOADING, false);
   if (extraData) {
-    commit(mutationName, { list, extraData });
+    commit(mutationName, { data, extraData });
   } else {
-    commit(mutationName, list);
+    commit(mutationName, data);
   }
-  return list;
+  return data;
 };

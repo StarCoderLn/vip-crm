@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import Layout from '@/views/Layout.vue';
-import User from '@/views/User.vue';
-import Panel from '@/components/Panel.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -12,12 +10,17 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/',
         name: 'Panel',
-        component: Panel,
+        component: () => import(/* webpackChunkName: "panel" */ '../components/Panel.vue'),
       },
       {
         path: '/user',
         name: 'User',
-        component: User,
+        component: () => import(/* webpackChunkName: "user" */ '../views/user/index.vue'),
+      },
+      {
+        path: '/add',
+        name: 'Add',
+        component: () => import(/* webpackChunkName: "add" */ '../views/user/add.vue'),
       },
     ],
   },

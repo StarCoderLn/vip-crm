@@ -27,13 +27,19 @@
         </a-button>
       </a-form-item>
     </a-form>
+    <router-link to="/add">
+      <a-button
+        type="primary"
+        style="margin: 20px 0;">
+        新增
+      </a-button>
+    </router-link>
     <a-table
       :columns="columns"
       :data-source="tableData"
       rowKey="id"
       :loading="loading"
-      size="middle"
-      style="margin-top: 20px;">
+      size="middle">
       <template #name="{ text }">
         <a>{{ text }}</a>
       </template>

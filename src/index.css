@@ -13,3 +13,7 @@
 .ant-layout {
   height: var(--size100);
 }
+
+.ml20 {
+  margin-left: 20px;
+}
