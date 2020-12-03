@@ -28,7 +28,7 @@
           <a-form-item
             label="手机号码："
             name="phone">
-            <a-input v-model:value="formData.phone" maxlength="11" />
+            <a-input v-model:value="formData.phone" />
           </a-form-item>
           <a-form-item
             label="城市："
@@ -36,12 +36,15 @@
             <a-input v-model:value="formData.city" />
           </a-form-item>
           <a-form-item>
-            <a-button>取消</a-button>
+            <a-button @click="cancel">取消</a-button>
             <a-button
               type="primary"
               class="ml20"
               @click="save">保存</a-button>
-            <a-button type="danger" class="ml20">清空</a-button>
+            <a-button
+              type="danger"
+              class="ml20"
+              @click="clear">清空</a-button>
           </a-form-item>
         </a-form>
       </div>
@@ -52,16 +55,21 @@
 <script lang="ts">
 import {
   defineComponent,
+  onMounted,
   reactive,
   Ref,
   ref,
 } from 'vue';
 import axios from 'axios';
 import { message } from 'ant-design-vue';
+import { useRouter, useRoute } from 'vue-router';
 
 export default defineComponent({
   name: 'Add',
   setup() {
+    const router = useRouter();
+    const route = useRoute();
+    const id: string = route.query.id as string;
     const formData = reactive({
       name: '',
       age: '',
@@ -88,6 +96,22 @@ export default defineComponent({
     });
     const spinning: Ref<boolean> = ref(false);
 
+    onMounted(() => {
+      if (id) {
+        spinning.value = true;
+        axios
+          .get(`/api/basic/web/index.php?r=user/view&id=${id}`)
+          .then((res) => {
+            spinning.value = false;
+            if (res.data.code === 200) {
+              Object.assign(formData, res.data.data);
+            } else {
+              message.error('获取数据失败');
+            }
+          });
+      }
+    });
+
     // 表单校验
     const isValidate = (): boolean => {
       if (!formData.name) {
@@ -113,27 +137,54 @@ export default defineComponent({
       return true;
     };
 
+    // 公共保存方法
+    const saveAction = (url: string, params: FormData) => {
+      spinning.value = true;
+      axios
+        .post(url, params)
+        .then((res) => {
+          spinning.value = false;
+          if (res.data.code === 200) {
+            message.success('保存成功');
+            router.go(-1);
+          } else {
+            message.error('保存失败');
+          }
+        });
+    };
+
     // 保存
     const save = () => {
       if (isValidate()) {
-        spinning.value = true;
         const params = new FormData();
         params.append('name', formData.name);
         params.append('age', formData.age);
         params.append('worktime', formData.worktime);
         params.append('phone', formData.phone);
         params.append('city', formData.city);
-        axios
-          .post('/api/basic/web/index.php?r=user/create', params)
-          .then((res) => {
-            spinning.value = false;
-            if (res.data.code === 200) {
-              message.success('保存成功');
-            } else {
-              message.error('保存失败');
-            }
-          });
+        if (id) { // 编辑
+          params.append('id', id);
+          saveAction('/api/basic/web/index.php?r=user/update', params);
+        } else { // 新增
+          saveAction('/api/basic/web/index.php?r=user/create', params);
+        }
       }
+    };
+
+    // 取消
+    const cancel = () => {
+      router.push({
+        path: '/user',
+      });
+    };
+
+    // 清空
+    const clear = () => {
+      formData.name = '';
+      formData.age = '';
+      formData.worktime = '';
+      formData.phone = '';
+      formData.city = '';
     };
 
     return {
@@ -141,6 +192,8 @@ export default defineComponent({
       spinning,
       rules,
       save,
+      cancel,
+      clear,
     };
   },
 });
