@@ -4,6 +4,7 @@
       v-model:selectedKeys="menuConfig.selectedKeys"
       mode="inline"
       theme="dark"
+      selectable
     >
       <a-sub-menu key="sub1">
         <template #title>

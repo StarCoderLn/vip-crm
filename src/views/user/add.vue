@@ -28,7 +28,7 @@
           <a-form-item
             label="手机号码："
             name="phone">
-            <a-input v-model:value="formData.phone" />
+            <a-input v-model:value="formData.phone" :maxlength="11" />
           </a-form-item>
           <a-form-item
             label="城市："
@@ -163,8 +163,7 @@ export default defineComponent({
         params.append('phone', formData.phone);
         params.append('city', formData.city);
         if (id) { // 编辑
-          params.append('id', id);
-          saveAction('/api/basic/web/index.php?r=user/update', params);
+          saveAction(`/api/basic/web/index.php?r=user/update&id=${id}`, params);
         } else { // 新增
           saveAction('/api/basic/web/index.php?r=user/create', params);
         }

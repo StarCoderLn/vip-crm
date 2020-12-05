@@ -38,6 +38,15 @@
       :data-source="tableData"
       rowKey="id"
       :loading="loading"
+      :pagination="{
+        defaultCurrent: formData.pageNumber,
+        defaultPageSize: formData.pageSize,
+        total: total,
+        showSizeChanger: true,
+        showQuickJumper: true,
+        showTotal: total => `总共 ${total} 条`
+      }"
+      @change="handleChange"
       size="middle">
       <template #name="{ text }">
         <a>{{ text }}</a>
@@ -71,7 +80,7 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import { Modal, message } from 'ant-design-vue';
+import { Modal, message, Pagination } from 'ant-design-vue';
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 import axios from 'axios';
 
@@ -120,9 +129,12 @@ export default defineComponent({
         },
       ],
       tableData: computed(() => state.user.tableData),
+      total: computed(() => state.user.total),
       formData: {
         name: '',
         phone: '',
+        pageNumber: 1,
+        pageSize: 10,
       },
       loading: computed(() => state.user.loading),
     });
@@ -159,8 +171,6 @@ export default defineComponent({
 
     // 删除
     const deleteUser = (id: string) => {
-      const params = new FormData();
-      params.append('id', id);
       Modal.confirm({
         title: '确定要删除该学生吗？',
         icon: createVNode(ExclamationCircleOutlined),
@@ -171,11 +181,12 @@ export default defineComponent({
         onOk() {
           data.loading = true;
           axios
-            .post('/api/basic/web/index.php?r=user/delete', params)
+            .post(`/api/basic/web/index.php?r=user/delete&id=${id}`)
             .then((res) => {
               data.loading = false;
               if (res.data.code === 200) {
                 message.success('删除成功');
+                search();
               } else {
                 message.error('删除失败');
               }
@@ -187,6 +198,13 @@ export default defineComponent({
       });
     };
 
+    // 分页、排序、筛选变化时触发
+    const handleChange = (pagination: typeof Pagination) => {
+      data.formData.pageNumber = pagination.current;
+      data.formData.pageSize = pagination.pageSize;
+      search();
+    };
+
     return {
       ...toRefs(data),
       search,
@@ -194,6 +212,7 @@ export default defineComponent({
       addUser,
       editUser,
       deleteUser,
+      handleChange,
     };
   },
 });

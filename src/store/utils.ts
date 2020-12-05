@@ -24,6 +24,7 @@ export interface UserProps {
 
 export interface UserState {
   tableData: UserProps[],
+  total: number,
   loading: boolean,
 }
 
